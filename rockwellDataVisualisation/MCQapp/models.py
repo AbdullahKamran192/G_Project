@@ -1,7 +1,8 @@
 from django.db import models
-from MAINapp.models import DjangoAdmin, User
+from MAINapp.models import DjangoAdmin
 from django.core.validators import MinValueValidator
 from django.db.models import Q
+from django.contrib.auth.models import User
 
 # Create your models here.
 

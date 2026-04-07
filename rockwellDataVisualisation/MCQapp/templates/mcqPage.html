@@ -2,10 +2,34 @@
 
 
 {% block page %}
-<p>This is the MCQ page</p>
 
-<form method="POST">
-    
-</form>
+<h1>This is the MCQ page</h1>
+
+
+<div>
+    <h2>Your score: {{ user_score }}</h2>
+</div>
+
+
+<div class="leaderboard">
+    <h2>Leaderboard</h2>
+</div>
+
+
+
+<div>
+    <label>Static questions</label>
+    <button>
+        Start Quiz
+    </button>
+</div>
+
+
+<div>
+    <label>Dynamic questions</label>
+    <button>
+        Start Quiz
+    </button>
+</div>
 
 {% endblock %}

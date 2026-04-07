@@ -10,9 +10,23 @@
 <body>
     <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="">Live data</a></li>
+        <li><a href="Add your url link here">Live data</a></li>
         <li><a href="{% url 'mcqHome' %}">MCQ</a></li>
+        <li><a href="{% url 'login_user' %}">Login</a></li>
     </ul>
+
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ message }}</strong> You should check in on some of those fields below.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
 
     {% block page %} Django App {% endblock %}
 
