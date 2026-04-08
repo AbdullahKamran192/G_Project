@@ -12,7 +12,12 @@
         <li><a href="/">Home</a></li>
         <li><a href="Add your url link here">Live data</a></li>
         <li><a href="{% url 'mcqHome' %}">MCQ</a></li>
-        <li><a href="{% url 'login_user' %}">Login</a></li>
+
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'logout_user' %}">Logout</a></li>
+        {% else %}
+            <li><a href="{% url 'login_user' %}">Login</a></li>
+        {% endif %}
     </ul>
 
     <div>

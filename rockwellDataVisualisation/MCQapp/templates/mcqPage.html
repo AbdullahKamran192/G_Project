@@ -13,23 +13,26 @@
 
 <div class="leaderboard">
     <h2>Leaderboard</h2>
+    {% for stat in top_stats %}
+        <p> {{ stat.user.username }} - {{ stat.score }}</p>
+    {% endfor %}
 </div>
 
-
-
-<div>
-    <label>Static questions</label>
-    <button>
-        Start Quiz
-    </button>
-</div>
 
 
 <div>
     <label>Dynamic questions</label>
-    <button>
-        Start Quiz
-    </button>
+    <a href="{% url 'dynamicQuestions' %}">
+        <button>Start Dyanmic Quiz</button>
+    </a>
+</div>
+
+
+<div>
+    <label>Static questions</label>
+    <a href="{% url 'staticQuestions' %}">
+        <button>Start Static Quiz</button>
+    </a>
 </div>
 
 {% endblock %}

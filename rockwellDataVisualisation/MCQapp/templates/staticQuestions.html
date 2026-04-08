@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+
+{% block page %}
+
+<h1>This is the static questions page</h1>
+
+<form method="post" action="{% url 'submitStaticQuiz' %}">
+    
+    {% csrf_token %}
+
+    {% for question, options in questions_options.items %}
+
+        <p>{{ question.question }}</p>
+
+        {% for option in options %}
+            <label>
+                <input type="radio" name="question_{{ question.id }}" value = "{{ option.id }}">
+                {{ option.option_description }}
+            </label>
+        {% endfor %}
+
+        <br>
+    
+    {% endfor %}
+
+    <button type="submit">Submit Quiz</button>
+</form>
+
+{% endblock %}
