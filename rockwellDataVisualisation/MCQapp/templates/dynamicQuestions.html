@@ -1,31 +1,38 @@
 {% extends "base.html" %}
-
+{% load static %}
 
 {% block page %}
+<link rel="stylesheet" href="{% static 'css/MCQ/dynamicQuestions.css' %}">
 
-<h1>This is the dynamic questions page</h1>
+<div class="center-content">
+    <div class="dynamic-questions-container">
+        <h2>Dynamic Questions</h2>
+        <form method="post" action="{% url 'dynamicQuestionSubmit' %}">
+            {% csrf_token %}
 
-<form method="post" action="{% url 'dynamicQuestionSubmit' %}">
-    {% csrf_token %}
+            <h3>{{ question_data.question }}</h3>
 
-    <h3>{{ question_data.question }}</h3>
+            {% for question in questions_options %}
 
-    {% for question in questions_options %}
-        <h3>{{ question.question }}</h3>
+                <div class="question_block">
+                    <h3>{{ question.question }}</h3>
 
-        <a href="{{ question.article_link }}" target="_blank">Read article for this question</a> <br>
+                    <a href="{{ question.article_link }}" target="_blank">Read article for this question</a> <br>
+                    
+                    {% for option in question.options %}
+                        <label>
+                            <input type="radio" name="question_{{ forloop.parentloop.counter0 }}" value="{{ option }}" required>
+                            {{ option }}
+                        </label>
+                        <br>
+                    {% endfor %}
+                </div> <br>
+            
+            {% endfor %}
 
-        {% for option in question.options %}
-            <label>
-                <input type="radio" name="question_{{ forloop.parentloop.counter0 }}" value="{{ option }}" required>
-                {{ option }}
-            </label>
-            <br>
-        {% endfor %}
-    
-    {% endfor %}
-
-    <button type="submit">Submit Quiz</button>
-</form>
+            <button type="submit">Submit Quiz</button>
+        </form>
+    </div>
+</div>
 
 {% endblock %}

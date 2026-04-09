@@ -10,8 +10,12 @@
 <body>
     <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="Add your url link here">Live data</a></li>
+        <li><a href="{% url 'liveDataHome' %}">Live data</a></li>
         <li><a href="{% url 'mcqHome' %}">MCQ</a></li>
+        <li><a href="{% url 'ecommerceHome' %}">Ecommerce</a></li>
+        <li><a href="{% url 'strongPasswordToolHome' %}">Strong Password Tool</a></li>
+        <li><a href="{% url 'userAvatarHome' %}">User 2D Avatar</a></li>
+
 
         {% if user.is_authenticated %}
             <li><a href="{% url 'logout_user' %}">Logout</a></li>

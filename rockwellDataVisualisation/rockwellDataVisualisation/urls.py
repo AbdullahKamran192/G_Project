@@ -22,5 +22,9 @@ urlpatterns = [
     path("", include("MAINapp.urls")),
     path("mcq/", include("MCQapp.urls")),
     path("users/", include('django.contrib.auth.urls')),
-    path("users/", include("USERSapp.urls"))
+    path("users/", include("USERSapp.urls")),
+    path("livedata/", include("LiveDataApp.urls")),
+    path("ecommerceapp/", include("EcommerceApp.urls")),
+    path("strongpasswordtool/", include("StrongPasswordToolApp.urls")),
+    path("useravatar/", include("UserAvatarApp.urls"))
 ]

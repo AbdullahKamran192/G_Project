@@ -39,7 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "MCQapp",
     "MAINapp",
-    "USERSapp"
+    "USERSapp",
+    "LiveDataApp",
+    "EcommerceApp",
+    "StrongPasswordToolApp",
+    "UserAvatarApp"
 ]
 
 MIDDLEWARE = [

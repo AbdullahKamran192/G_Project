@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page %}
+
+<link rel="stylesheet" href="{% static 'css/MCQ/quizResults.css' %}">
+
+<div class="center-content">
+    <div class="quiz-results-container">
+        <h1>Your Score: {{ score }} / {{ total }}</h1>
+        <button onclick="loadMCQpage()">return to MCQ page</button>
+    </div>
+</div>
+
+
+<script>
+    function loadMCQpage() {
+        window.location.href = "{% url 'mcqHome' %}"
+    }
+</script>
+
+{% endblock %}

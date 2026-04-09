@@ -101,20 +101,45 @@ def mcqHome(request):
 @login_required(login_url='login_user')
 def dynamicQuestions(request):
 
-    questions = []
-    correct_answers = [] 
+    keywords = "malware OR hackers"
+    language = "en"
+    url = f"https://newsdata.io/api/1/latest?apikey={os.getenv('NEWS_API_KEY')}&q={keywords}&language={language}"
+    response = requests.get(url) 
 
-    for question_data in sample_dynamic_questions_data:
-        questions.append({
-            "question" : question_data["question"],
-            "options" : question_data["options"],
-            "article_link" : "https://www.google.com/"
-        })
+    if response.status_code == 200:
+        news_data = response.json()
+        results = news_data.get('results')
 
-        correct_answers.append(question_data["correct_option"])
+        questions = []
+        correct_answers = []
+
+        for article in results:
+            article_id = article['article_id']
+            article_link = article['link']
+
+            # print(article_id, "\n", article_link)
+
+            articleText = get_article_text(article_link)
+
+            response = client.responses.create(
+                model="gpt-5.4",
+                input= f"Return json response of 1 question called 'question', 4 options array called 'options', from which 1 is the correct option called 'correct_option'. The text needs to be text breaches, malware, online safety related as the article text is {articleText}"
+            )
+
+            question_data = json.loads(response.output_text)
+
+            questions.append({
+                "question" : question_data["question"],
+                "options" : question_data["options"],
+                "article_link" : article_link
+            })
+
+            correct_answers.append(question_data["correct_option"])
+
+    else:
+        print(f"Failed to retreive data {response.status_code}")
     
     request.session['correct_answers'] = correct_answers
-
 
     return render(request, "dynamicQuestions.html", {"questions_options" : questions})
 
@@ -136,29 +161,8 @@ def dynamicQuestionSubmit(request):
     user_stat.questions_answered += len(correct_answers)
     user_stat.save()
 
-    return render(request, "dynamicQuizResults.html", { "score" : score_total, "total": len(correct_answers) * 5})
+    return render(request, "quizResults.html", { "score" : score_total, "total": len(correct_answers) * 5})
 
-
-
-
-    points_awarded = 2
-    selected = request.POST.get("selected_option")
-    correct = request.session.get("correct_option")
-    result = ""
-
-    if selected == correct:
-        user_stat = MCQstats.objects.get(user=request.user)
-        user_stat.score += 2
-        user_stat.questions_answered += 1
-        user_stat.save()
-        result = "CORRECT! 2 points awarded."
-    else:
-        user_stat = MCQstats.objects.get(user=request.user)
-        user_stat.questions_answered += 1
-        user_stat.save()
-        result = "WRONG!!"
-
-    return render(request, "dynamicQuizResults.html", {"result" : result})
 
 
 @login_required(login_url='login_user')
@@ -203,4 +207,4 @@ def submitStaticQuiz(request):
     user_stat.score += score
     user_stat.save()
 
-    return HttpResponse(f"Your score: {score}/{total}")
+    return render(request, "quizResults.html", { "score" : score, "total": total})
