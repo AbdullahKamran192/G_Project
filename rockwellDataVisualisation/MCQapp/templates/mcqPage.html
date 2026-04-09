@@ -3,36 +3,48 @@
 
 {% block page %}
 
-<h1>This is the MCQ page</h1>
+<h1>MCQ page</h1>
+
+<h2>Hello, {{ user_name }}</h2>
 
 
 <div>
     <h2>Your score: {{ user_score }}</h2>
+    <h2>Questions answered: {{ user_questions_answered }}</h2>
 </div>
 
 
 <div class="leaderboard">
     <h2>Leaderboard</h2>
     {% for stat in top_stats %}
-        <p> {{ stat.user.username }} - {{ stat.score }}</p>
+        <p> {{ stat.user.username }} - score: {{ stat.score }} ( questions answered: {{ stat.questions_answered }})</p>
     {% endfor %}
 </div>
 
 
 
 <div>
-    <label>Dynamic questions</label>
-    <a href="{% url 'dynamicQuestions' %}">
-        <button>Start Dyanmic Quiz</button>
-    </a>
+    <label>Dynamic questions (+5 points for each correct answer)</label> <br>
+    <button onclick="startDynamicQuiz()"> Start Dyanmic Quiz</button>
+    <p id="loadingMessage" style="visibility: hidden; color: red;">Creating dynamic questions... this may take some time</p>
 </div>
-
 
 <div>
-    <label>Static questions</label>
-    <a href="{% url 'staticQuestions' %}">
-        <button>Start Static Quiz</button>
-    </a>
+    <label>Static questions (+1 point for each correct answer)</label> <br>
+    <button onclick="startStaticQuiz()">Start Static Quiz</button>
 </div>
+
+
+<script>
+    function startDynamicQuiz() {
+        document.getElementById("loadingMessage").style.visibility = "visible";
+
+        window.location.href = "{% url 'dynamicQuestions' %}"
+    }
+
+    function startStaticQuiz() {
+        window.location.href = "{% url 'staticQuestions' %}"
+    }
+</script>
 
 {% endblock %}

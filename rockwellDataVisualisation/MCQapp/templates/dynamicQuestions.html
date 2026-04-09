@@ -5,6 +5,27 @@
 
 <h1>This is the dynamic questions page</h1>
 
-<p>{{ news_data }}</p>
+<form method="post" action="{% url 'dynamicQuestionSubmit' %}">
+    {% csrf_token %}
+
+    <h3>{{ question_data.question }}</h3>
+
+    {% for question in questions_options %}
+        <h3>{{ question.question }}</h3>
+
+        <a href="{{ question.article_link }}" target="_blank">Read article for this question</a> <br>
+
+        {% for option in question.options %}
+            <label>
+                <input type="radio" name="question_{{ forloop.parentloop.counter0 }}" value="{{ option }}" required>
+                {{ option }}
+            </label>
+            <br>
+        {% endfor %}
+    
+    {% endfor %}
+
+    <button type="submit">Submit Quiz</button>
+</form>
 
 {% endblock %}
