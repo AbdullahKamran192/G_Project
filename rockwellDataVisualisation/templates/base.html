@@ -20,7 +20,7 @@
         {% endif %}
     </ul>
 
-    <div>
+    <div class="page-content">
         {% if messages %}
             {% for message in messages %}
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -31,9 +31,9 @@
                 </div>
             {% endfor %}
         {% endif %}
-    </div>
 
-    {% block page %} Django App {% endblock %}
+        {% block page %} Django App {% endblock %}
+    </div>
 
 </body>
 </html>

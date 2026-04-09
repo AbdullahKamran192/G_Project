@@ -1,38 +1,40 @@
 {% extends "base.html" %}
-
+{% load static %}
 
 {% block page %}
+<link rel="stylesheet" href="{% static 'css/MCQ/MCQhome.css' %}">
 
 <h1>MCQ page</h1>
 
 <h2>Hello, {{ user_name }}</h2>
 
+<div class="center-form">
+    <div class="mcq-home-container">
+        <div class="score-container">
+            <h2>Your score: {{ user_score }}</h2>
+            <h2>Questions answered: {{ user_questions_answered }}</h2> 
+        </div>
 
-<div>
-    <h2>Your score: {{ user_score }}</h2>
-    <h2>Questions answered: {{ user_questions_answered }}</h2>
+        <div class="leaderboard">
+            <h2 style="color: white; font-weight: bold;">Leaderboard</h2>
+            {% for stat in top_stats %}
+                <p id="user_stats_text"> {{ stat.user.username }} - score: {{ stat.score }} ( questions answered: {{ stat.questions_answered }})</p> <br>
+            {% endfor %}
+        </div> <br>
+
+        <div class="staticQuestions">
+            <label>Static questions (+1 point for each correct answer)</label> <br>
+            <button onclick="startStaticQuiz()">Start Static Quiz</button>
+        </div> <br>
+
+        <div class="dynamicQuestions">
+            <label>Dynamic questions (+5 points for each correct answer)</label> <br>
+            <button onclick="startDynamicQuiz()"> Start Dyanmic Quiz</button>
+            <p id="loadingMessage" style="visibility: hidden; color: red;">Creating dynamic questions... this may take some time</p>
+        </div>
+    </div>
 </div>
 
-
-<div class="leaderboard">
-    <h2>Leaderboard</h2>
-    {% for stat in top_stats %}
-        <p> {{ stat.user.username }} - score: {{ stat.score }} ( questions answered: {{ stat.questions_answered }})</p>
-    {% endfor %}
-</div>
-
-
-
-<div>
-    <label>Dynamic questions (+5 points for each correct answer)</label> <br>
-    <button onclick="startDynamicQuiz()"> Start Dyanmic Quiz</button>
-    <p id="loadingMessage" style="visibility: hidden; color: red;">Creating dynamic questions... this may take some time</p>
-</div>
-
-<div>
-    <label>Static questions (+1 point for each correct answer)</label> <br>
-    <button onclick="startStaticQuiz()">Start Static Quiz</button>
-</div>
 
 
 <script>
